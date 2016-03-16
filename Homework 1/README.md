@@ -2,7 +2,7 @@
 
 Grade		40.00 / 40.00
 Graded on	Wednesday, February 17, 2016, 10:28 AM
-Graded by	Picture of Dmitry BasavinDmitry Basavin
+Graded by	Dmitry Basavin
 ##Feedback comments	
 Problem 1: 10/10
 
