@@ -1,0 +1,331 @@
+\documentclass{article}
+\usepackage[letterpaper, margin=1in]{geometry}
+\usepackage{booktabs}
+\usepackage{float}
+\usepackage{hyperref}
+\usepackage{color}
+\usepackage{soul}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=black,
+    urlcolor=black,
+    linktoc=all
+}
+
+\title{\Huge Homework 1
+		\\\LARGE Artificial Intelligence
+		\\\LARGE CS 540 Section 3
+		\vspace{2pc}}
+
+\author{Ritvik Upadhyaya}
+\date{}
+
+\begin{document}
+
+	\maketitle
+	\newpage
+
+	\tableofcontents
+
+	\newpage
+
+	\section{Defining a Problem}
+    \vspace{2pc}
+	\subsection{State Space}
+        The state space in the problem will contain a set of possible options from the farmer(F), sheep(S), dog(D), and cabbage(C). Here the state space can be represented in the form of (X,Y) were X and Y are two valid combination of the 4 characters mentioned above.\\
+        A valid combination means, a state where no character kills or eats the other one. So examples of non-valid combinations can include the dog with the sheep without the farmer, the sheep with the cabbage without the farmer present.\\
+        For this particular problem set, the valid space set will contain the following:\\
+        (FSCD, ), (FCD, S), (FS, DC), (D, CFS), (C, DSF), (DFS, C), (CSF, D),  (DC, FS), (S, CFD), (, CSDF)
+        The initial state for this problem {FSCD, }
+	\subsection{Possible Actions}
+        Action is a valid move on a defined current valid state of the problem such that the state can be changed to a valid possible successor state.\\Given the state (CD,FS), a valid action is to make the farmer cross the river from the right to the left alone while leaving the sheep on the right side of the bank.
+	\subsection{Transition Model}
+        On a given general state. transition model returns a valid possible general state s' resultant of a valid action on state s.\\So like from the previous question, the transition state will return (FCD, S).
+	\subsection{Goal Test}
+        The goal test returns whether the state being tested is the final or end state for the problem. Or in other words does the state contain the solution we were looking for in the problem.
+	\subsection{Path Cost}
+        Path cost is the sum of all the cost of actions needed to reach the goal test.\\In this problem assuming crossing river has a cost of 1 unit associated with it, and there is no cost of droppping/picking up/swapping the passengers, then the total cost is 7 units to solve this problem.\\
+        In terms of search, path cost can tell us how close or how far we are from the initial state or the final state!\\
+    \newpage
+	\section{Uninformed Search}
+	\subsection{Breadth-First Search}
+	The breadth first search or BFS will return the frontier and expanded list from the following table:\\
+	\vspace{-2pc}
+	\begin{table}[H]
+		\centering
+
+		\caption{BFS}
+
+		\label{tab:table1}
+
+		\begin{tabular}{|c|c|}
+
+			\toprule
+			Nodes & Frontier List\\
+			\midrule
+
+			\textcolor{red}{Initial State} & \{S\}\\
+    		\hline
+    		S & \{A,B,C\}\\
+    		\hline
+    		A & \{B,C,D,E\}\\
+    		\hline
+    		B  & \{C,D,E,F,G\}\\
+    		\hline
+    		C  & \{D,E,F,G,H\}\\
+    		\hline
+    		D  & \{E,F,G,H\}\\
+    		\hline
+    		E  & \{F,G,H,I\}\\
+    		\hline
+    		F  & \{G,H,I,I,J\}\\
+    		\hline
+    		G  & \{H,I,I,J,J,K\}\\
+    		\hline
+    		H  & \{I,I,J,J,K\}\\
+    		\hline
+    		I  & \{J,J,K\}\\
+    		\hline
+    		J  & \{K\}\\
+    		\hline
+    		K \textcolor{red}{(Goal State)}& \{\}\textcolor{red}{No Expand}\\
+    		\hline
+    		      
+		\end{tabular}
+	\end{table}
+    \vspace{-.5pc}
+    The path followed is \underline{S B G K} and the path cost is \underline{19}.
+
+	\subsection{Depth-First Search}
+	The depth first search or DFS will have the following order of traversal:\\
+    \vspace{-2pc}
+	\begin{table}[H]
+		\centering
+		\caption{DFS}
+		\label{tab:table1}
+		\begin{tabular}{|c|c|}
+			\toprule
+			Nodes & Frontier List\\
+			\midrule
+			\textcolor{red}{Initial State} & \{S\}\\
+    		\hline
+    		S & \{A,B,C\}\\
+    		\hline
+    		A & \{D,E,B,C\}\\
+    		\hline
+    		D  & \{E,B,C\}\\
+    		\hline
+    		E  & \{I,B,C\}\\
+    		\hline
+    		I  & \{B,C\}\\
+    		\hline
+    		B  & \{F,G,C\}\\
+    		\hline
+    		F  & \{I,J,G,C\}\\
+            \hline
+            I  & \{J,G,C\}\\
+    		\hline
+    		J  & \{M,G,C\}\\
+    		\hline
+    		M \textcolor{red}{(Goal State)} & \{G,C\}\textcolor{red}{No Expand}\\
+            \hline
+    	\end{tabular}
+	\end{table}
+    \vspace{-.5pc}
+    \underline{S B F J M} is the path with the path cost \underline{30}
+
+	\subsection{Uniform-Cost Search}
+	\begin{table}[H]
+		\centering
+		\caption{DFS}
+		\label{tab:table1}
+		\begin{tabular}{|c|c|}
+			\toprule
+			Nodes & Frontier List\\
+			\midrule
+    		\textcolor{red}{Initial State}  & \{S:0\}\\
+    		\hline
+    		S  & \{B:10, A:12, C:13\}\\
+    		\hline
+    		B  & \{A:12, C:13,  G:10+7, F:10+12\}\\
+    		\hline
+    		A  & \{C:13,  G:17, E:18, F:22, D:12+11\}\\
+    		\hline
+    		C  & \{G:17, H:13+4, E:18, F:22, D:23\}\\
+            \hline
+            G  & \{H:17, E:18, K:17+2, F:22, D:23, J:25\}\\
+            \hline
+            H  & \{E:18, K:17+1, K:19, L:17+3, F:22, D:23, J:25\}\\
+            \hline
+            E  & \{K:18, K:19, L:20, F:22, D:23, J:25, I:28\}\\
+            \hline
+            K \textcolor{red}{(Goal State)} & \{K:19, L:20, F:22, D:23, J:25, I:28\}\textcolor{red}{No Expand}\\
+            \hline
+		\end{tabular}
+	\end{table}
+    \vspace{-.5pc}
+        Path cost is \underline{18} with the path \underline{S C H K}
+
+	\subsection{Iterative-Deepening Search}
+    \vspace{-2pc}
+	\begin{table}[H]
+		\centering
+		\caption{DFS}
+		\label{tab:table1}
+		\begin{tabular}{|c|c|}
+			\toprule
+			Nodes & Frontier List\\
+			\midrule
+			\textcolor{red}{Initial State} & \{S\}\\
+    		\hline
+    		S & \{A,B,C\}\\
+    		\hline
+    		A  & \{B, C\}\\
+    		\hline
+    		B  & \{C\}\\
+    		\hline
+    		C  & \{\}\textcolor{red}{//Search Fails}\\
+    		\hline
+    		S \textcolor{red}{(no test)} & \{A, B, C\}\\
+    		\hline
+    		A  & \{D, E, B, C\}\\
+            \hline
+            D  & \{E, B, C\}\\
+            \hline
+            E  & \{B, C\}\\
+            \hline
+            B  & \{F, G, C\}\\
+            \hline
+            F  & \{G, C\}\\
+            \hline
+            G   & \{C\}\\
+            \hline
+            C   & \{H\}\\
+            \hline
+            H   & \{\}\textcolor{red}{//Search Fails}\\
+            \hline
+            S \textcolor{red}{(no test)} & \{A, B, C\}\\
+            \hline
+            A  & \{D, E, B, C\}\\
+            \hline
+            D  & \{E, B, C\}\\
+            \hline
+            E  & \{I, B, C\}\\
+            \hline
+            I   & \{B, C\}\\
+            \hline
+            B   & \{F, G, C\}\\
+            \hline
+            F   & \{I, J, G, C\}\\  		
+            \hline
+            I   & \{J, G, C\}\\
+            \hline
+            J   & \{G, C\}\\
+            \hline
+            G   & \{J, K, C\}\\
+            \hline
+            J   & \{K, C\}\\         
+            \hline
+            K \textcolor{red}{(Goal State)} & \{C\}\textcolor{red}{No Expand}\\
+            \hline
+
+		\end{tabular}
+	\end{table}
+    \underline{S B G K} is the goal path with path length \underline{19}
+	\vspace{2pc}
+
+	\section{Informed Search}
+	\subsection{Greedy Best First Search}
+    \begin{table}[H]
+        \centering
+        \caption{Greedy Best First Search}
+        \label{tab:table1}
+        \begin{tabular}{|c|c|}
+            \toprule
+            Nodes & Frontier List\\
+            \midrule
+            \textcolor{red}{Initial State} & \{S:5\}\\
+            \hline
+            S & \{A:1, C:1, B:7\}\\
+            \hline
+            A & \{C:1, D:3, E:4, B:7\}\\
+            \hline
+            C & \{D:3, E:4, H:4, B:7\}\\
+            \hline
+            D & \{E:4, H:4, B:7\}\\
+            \hline
+            E & \{I:1, H:4, B:7\}\\
+            \hline
+            I & \{H:4, B:7\}\\
+            \hline
+            H & \{K:4, L:4, B:7\}\\
+            \hline
+            K & \{L:4, B:7\}\\
+            \hline
+            L & \{N:4, B:7\}\\
+            \hline
+            N & \{B:7\}\\
+            \hline
+            B & \{F:1, G:1\}\\
+            \hline
+            F & \{G:1, I:1, J:2\}\\
+            \hline
+            G & \{I:1, J:2, J:2, K:4\}\\
+            \hline
+            I & \{J:2, J:2, K:4\}\\
+            \hline
+            J \textcolor{red}{Goal State} & \{J:2, K:4, M:4\}\textcolor{red}{No Expand}\\
+            \hline
+
+        \end{tabular}
+    \end{table}
+    \vspace{-.5pc}
+        Path is \underline{S B F J} and the path cost is \underline{29}
+
+	\subsection{A* Search}
+    \begin{table}[H]
+        \centering
+        \caption{Greedy Best First Search}
+        \label{tab:table1}
+        \begin{tabular}{|c|c|}
+            \toprule
+            Nodes & Frontier List\\
+            \midrule
+            \textcolor{red}{Initial State} & \{S:5\}\\
+            \hline
+            S & \{A: 12+1, C: 14, B:17\}\\
+            \hline
+            A & \{C:14, B:17, E:22, D:26\}\\
+            \hline
+            C & \{B:17, H:21, E:22, D:26\}\\
+            \hline
+            B & \{G:18, H:21, E:22, F:23, D:26\}\\
+            \hline
+            G & \{H:21, E:22, F:23, K:23, D:26, J:27\}\\
+            \hline
+            H & \{E:22, K:22, F:23, \st{K:23}, L:24, D:26, J:27\}\\
+            \hline
+            E & \{K:22, F:23, L:24, D:26, J:27, I:29\}\\
+            \hline
+            K & \{F:23, L:24, D:26, J:27, I:29\}\\
+            \hline
+            F & \{L:24, I:25, D:26, J:27, \st{I:29, J:31}\}\\
+            \hline
+            L & \{I:25, N:25, D:26, J:27\}\\
+            \hline
+            I & \{N:25, D:26, J:27\}\\
+            \hline
+            N & \{D:26, J:27\}\\
+            \hline
+            D & \{J:27\}\\
+            \hline
+            J \textcolor{red}{Goal State} & \{M:30\}\textcolor{red}{No Expand}\\
+            \hline
+        \end{tabular}
+        \\
+        Note: According to slides in page 13, if a lower heuristic value node is found, the same node with the higher value is replaced (signified with a strikethrough)
+    \end{table}
+    \vspace{-0.5pc}
+        The path is \underline{S B G J} with the path cost of \underline{25}
+\end{document}
