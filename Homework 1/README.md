@@ -1,8 +1,10 @@
 #Feedback
 
-Grade		40.00 / 40.00
-Graded on	Wednesday, February 17, 2016, 10:28 AM
-Graded by	Dmitry Basavin
+Grade 40.00 / 40.00
+
+Graded on Wednesday, February 17, 2016, 10:28 AM
+
+Graded by Dmitry Basavin
 ##Feedback comments	
 Problem 1: 10/10
 
