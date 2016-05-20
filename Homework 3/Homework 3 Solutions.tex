@@ -1,0 +1,132 @@
+\documentclass{article}
+\usepackage[letterpaper, margin=1in]{geometry}
+\usepackage{booktabs}
+\usepackage{float}
+\usepackage{hyperref}
+\usepackage{color}
+\usepackage{soul}
+\usepackage{tikz}
+\usepackage{amssymb}
+\usetikzlibrary{arrows}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=black,
+    urlcolor=black,
+    linktoc=all
+}
+
+\title{\Huge Homework 3
+		\\\LARGE Artificial Intelligence
+		\\\LARGE CS 540 Section 3
+		\vspace{2pc}}
+
+\author{Ritvik Upadhyaya}
+\date{}
+
+\begin{document}
+	\maketitle
+	\newpage
+	\tableofcontents
+	\newpage
+
+	\section{Hierarchical Clustering}
+		\subsection{HAC}
+		\subsubsection{Single Linkage}
+		\{6\}, \{8\}, \{10\}, \{20\}, \{26\}, \{30\}, \{32\}, \{33\}\\
+		\{6\}, \{8\}, \{10\}, \{20\}, \{26\}, \{30\}, \{32, 33\}\\
+		\{6, 8\}, \{10\}, \{20\}, \{26\}, \{30\}, \{32, 33\}\\
+		\{6, 8, 10\}, \{20\}, \{26\}, \{30\}, \{32, 33\}\\
+		\{6, 8, 10\}, \{20\}, \{26\}, \{30, 32, 33\}\\
+		\{6, 8, 10\}, \{20\}, \{26, 30, 32, 33\}\\
+		\{6, 8, 10\}, \{20, 26, 30, 32, 33\}\\
+		\{6, 8, 10, 20, 26, 30, 32, 33\}
+
+		\subsubsection{Complete Linkage}
+		\{6\}, \{8\}, \{10\}, \{20\}, \{26\}, \{30\}, \{32\}, \{33\}\\
+		\{6\}, \{8\}, \{10\}, \{20\}, \{26\}, \{30\}, \{32, 33\}\\
+		\{6, 8\}, \{10\}, \{20\}, \{26\}, \{30\}, \{32, 33\}\\
+		\{6, 8\}, \{10\}, \{20\}, \{26\}, \{30, 32, 33\}\\
+		\{6, 8, 10\}, \{20\}, \{26\}, \{30, 32, 33\}\\
+		\{6, 8, 10\}, \{20, 26\}, \{30, 32, 33\}\\
+		\{6, 8, 10\}, \{20, 26, 30, 32, 33\}\\
+		\{6, 8, 10, 20, 26, 30, 32, 33\}
+
+		\subsubsection{Average Linkage}
+		\{6\}, \{8\}, \{10\}, \{20\}, \{26\}, \{30\}, \{32\}, \{33\}\\
+		\{6\}, \{8\}, \{10\}, \{20\}, \{26\}, \{30\}, \{32, 33\}\\
+		\{6, 8\}, \{10\}, \{20\}, \{26\}, \{30\}, \{32, 33\}\\
+		\{6, 8, 10\}, \{20\}, \{26\}, \{30\}, \{32, 33\}\\
+		\{6, 8, 10\}, \{20\}, \{26\}, \{30, 32, 33\}\\
+		\{6, 8, 10\}, \{20\}, \{26, 30, 32, 33\}\\
+		\{6, 8, 10\}, \{20, 26, 30, 32, 33\}\\
+		\{6, 8, 10, 20, 26, 30, 32, 33\}
+
+		\subsection{Single Linkage Dendogram}
+		\begin{tikzpicture}[sloped]
+			\node (a) at (-2,0) {6};
+			\node (b) at (-1,0) {8};
+			\node (c) at (0,0) {10};
+			\node (d) at (1,0) {20};
+			\node (e) at (2,0) {26};
+			\node (f) at (3,0) {30};
+			\node (g) at (4,0) {32};
+			\node (h) at (5,0) {33};
+			\node (ab) at (-1.5,2) {};
+			\node (abc) at (-1,3) {};
+			\node (gh) at (4.5,1) {};
+			\node (abc) at (-1, 3) {};
+			\node (fgh) at (4, 4) {};
+			\node (efgh) at (3.5, 5) {};
+			\node (defgh) at (3, 6) {};
+
+			\node (all) at (-1.5,7) {};
+
+			\draw  (a) |- (ab.center);
+			\draw  (b) |- (ab.center);
+			\draw  (c) |- (abc.center);
+
+			\draw  (g) |- (gh.center);
+			\draw  (h) |- (gh.center);
+			\draw (ab) |- (abc.center);
+			\draw (gh) |- (fgh.center);
+			\draw (f)  |- (fgh.center);
+			\draw (e)  |- (efgh.center);
+			\draw (fgh)|- (efgh.center);
+			\draw (efgh)|- (defgh.center);
+			\draw (d)  |- (defgh.center);
+			\draw (abc)|- (all.center);
+			\draw (defgh)|- (all.center);
+
+			\draw[->,-triangle 60] (-7,0) -- node[above]{distance} (-7,6);
+		\end{tikzpicture}\\
+		Note: Ignore the extending line at the top
+
+		\subsection{Good Clustering}
+		There is no real "good" clustering method. A good cluster depends on the data being clustered and the characteristics of that data. We see the characteristics of the cluster after each step and decide when do we have a data that can be used and has a high number of homogeneous clusters. In our question we see that single and average result in the same dendogram so it can be debated that those are the best way even though they are completely different. Hence there is no really good way to cluster data and it is a matter of instance.
+
+	\section{k Nearest Neighbor}
+		\subsection{Classification}
+	\begin{table}[H]
+		\centering
+		\caption{My caption}
+		\label{my-label}
+		\begin{tabular}{llllll}
+		Weight (lbs) & Height (in) & Shoe Size & Age & \begin{tabular}[c]{@{}l@{}}Square Root Distance\\ From First Data\end{tabular} & Distance from Second Data\\
+		90           & 52          & 7         & 10  & 104                                                                     & 2348              \\
+		130          & 69          & 9.5       & 20  & 967.25                                                                  & 541.25            \\
+		50           & 45          & 6         & 10  & 2526                                                                    & 6934              \\
+		63           & 51.5        & 6.5       & 10  & 1394.25                                                                 & 4737.5            \\
+		145          & 70          & 11        & 20  & 2441                                                                    & 1029              \\
+		160          & 69.5        & 10        & 20  & 3989.25                                                                 & 2021             
+	\end{tabular}
+\end{table}
+From the first instance we get that 1,2,4 (row numbers) are the closest match. Thus the predicted age is 10 from the majority of the vote (1 and 4). From the second instance we get closest match at 2,5,6. The predicted age from this instance is 20 (all 3).
+	
+	\subsection{Regression}
+	First data gives the predicted age as (10+20+10)/3 = 13.33
+	Second data gives the predicted age as (20+20+20)/3 = 20
+
+	\section{Implementation of k Means}
+	File is attached under the name "KMeans.java"
+\end{document}
